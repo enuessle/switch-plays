@@ -20,6 +20,9 @@ def openServer(host = HOST, port=PORT):
                     break
 
                 client_string = data.decode()
-                actions = client_string.split(",")
+                actions = [item.strip() for item in client_string.split(",")]
 
                 print(f"Recieved {actions} => {validateActions(actions)}")
+
+
+openServer()
