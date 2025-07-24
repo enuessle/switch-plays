@@ -5,16 +5,14 @@ import random
 
 # Possible Controller Inputs
 buttons = [
-    'B',
     'A',
-    'R',
-    'ZR'
 ]
 
-stick_directions = [
-    (100,0),
-    (-100,0),
-    (0,0)
+sticks = [
+    'L_STICK@-100+000',
+    'L_STICK@+000+000',
+    'L_STICK@+000+000',
+    'L_STICK@+100+000',
 ]
 
 def random_inputs(buttons, stick_dirs):
@@ -26,15 +24,16 @@ def random_inputs(buttons, stick_dirs):
             print("\n\nStopping Random Inputs...")
             break
 
-        # Get a random subset of 1 to 2 buttons
-        subset_size = random.randint(1, 2)
-        random_buttons = random.sample(buttons, subset_size)
-        nx.press_buttons(controller_index, random_buttons,
-                            down=0.5, up=0.0)
+        # Get a random button + joystick direction
+        random_button = random.choice(buttons)
+        random_stick_dir = random.choice(stick_dirs)
 
-        random_stick = random.choice(stick_directions)
-        nx.tilt_stick(controller_index, nxbt.Sticks.LEFT_STICK,
-                        *random_stick, tilted=0.5 ,released=0.0)
+        inputs = [random_button] + [random_stick_dir]
+
+        rand_time = random.random() * 1.0
+
+        nx.press_buttons(controller_index, inputs,
+                            down=rand_time, up=0.0)
 
         time.sleep(0.01)
 
@@ -80,7 +79,7 @@ try:
             nx.press_buttons(controller_index, [nxbt.Buttons.DPAD_RIGHT], up=0.0)
 
         if keyboard.is_pressed('p'):
-            random_inputs(buttons,stick_directions)
+            random_inputs(buttons,sticks)
 
         time.sleep(0.01)  # Reduce CPU usage
 
