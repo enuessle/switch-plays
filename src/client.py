@@ -62,13 +62,14 @@ def getChatGPT(client, prompt, image_path):
     return command
 
 
-def openServer(host = HOST, port=PORT):
+def openClient(host = HOST, port=PORT):
     # Connect to Laptop / Server
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
+        print(f"Connecting to {host}:{port}...")
         s.connect((host, port))
+
         cap = cv2.VideoCapture(0)
         client = OpenAI(api_key = keys.GPT_KEY)
-
 
         # Loop
         for i in range (1):
@@ -91,4 +92,4 @@ def openServer(host = HOST, port=PORT):
         cap.release()
 
 
-openServer()
+openClient()
