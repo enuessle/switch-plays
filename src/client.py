@@ -6,6 +6,7 @@ import cv2
 # Get Private Keys
 import keys
 import prompts
+import time
 
 HOST = "192.168.1.47"  # your laptop's IP
 PORT = 5001
@@ -72,7 +73,7 @@ def openClient(host = HOST, port=PORT):
         client = OpenAI(api_key = keys.GPT_KEY)
 
         # Loop
-        for i in range (1):
+        while True:
             print("Getting Action")
             # Get Image
             image_path = getImage(cap, FILENAME)
@@ -81,7 +82,7 @@ def openClient(host = HOST, port=PORT):
                 return
             
             # Get GPT Response
-            command = getChatGPT(client, prompts.MK_PROMPT, image_path)
+            command = "A," + getChatGPT(client, prompts.MK_PROMPT, image_path)
 
             # Send to Server
             s.sendall(command.encode())
